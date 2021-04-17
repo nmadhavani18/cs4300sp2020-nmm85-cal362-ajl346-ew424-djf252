@@ -9,7 +9,7 @@ padding: 20px 0;
 text-align:center;
 }
 body {
-padding-top: 15%;
+padding-top: 8%;
 padding-bottom: 15px;
 }
 .global-search {
@@ -30,8 +30,20 @@ top:2%;
 right:2%;
 }
 .btn{
-background-color: #4285F4;
+background-color: blue;
 border: none
+}
+.cbox{
+width:100px;
+height:20px;
+padding-top:10px;
+padding-left:-20px;
+}
+.img{
+background-color:transparent;
+width:7%;
+height:auto;
+padding-bottom:20px;
 }
 .step-links a{
 color: #4285F4;
