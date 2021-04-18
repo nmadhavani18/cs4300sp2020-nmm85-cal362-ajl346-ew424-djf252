@@ -1,32 +1,36 @@
 <html>
     <head>
         <link rel="stylesheet" href="/static/bootstrap.min.css">
-        <link rel="stylesheet" href="/static/main.css?v=1.0.44">
+        <link rel="stylesheet" href="/static/main.css?v=1.1.30">
     </head>
     <body>
         <div class="topcorner">
-            <p style=color:black>Project Name: {{ name }}</p>
-            <p style=color:black>Student Name: ({{ netid }})</p>
+            <p style=color:#E9A715>Project Name: {{ name }}</p>
+            <p style=color:#E9A715>Student Names: ({{ netid }})</p>
         </div>
         <div class="left-side"></div>
         <div class="right-side"></div>
 
         <form class="form-inline global-search">
-            <h1 style="font-size: 55px; font-family:esp; color:black; padding-top:10px">
+          <div class = "header">
+            <h1 style="font-family:esp; color:#E9A715; padding-top:10px; text-shadow: -2px 0 #820024, 0 2px #820024, 2px 0 #820024, 0 -2px #820024">
                 Parallel Pigskins
             </h1>
-            <img src="{{url_for('static', filename='american_football_PNG59.png')}}" align="middle" class="img" />
+            <img src="{{url_for('static', filename='american_football_PNG59.png')}}" align="right" class="img" />
+          </div>
             <br/>
 
-            <p style="font-size: 15px; color: black">Enter a list of either players or traits and then check the appropriate box.</p>
+            <p style="font-family:'Courier New', monospace; font-size: 15px; color: black">Enter a list of either players or traits and then check the appropriate box.</p>
             <br/>
-            <p style="font-size: 15px; color:black">For ex. "Tom Brady, Joe Montana, Aaron Rodgers"</p>
+            <p style="font-family:'Courier New', monospace; font-size: 15px; color:black">For ex. "Tom Brady, Joe Montana, Aaron Rodgers"</p>
             <br><br>
 
             <div class="form-group">
                 <input id="input" type="text" name="search" class="form-control" placeholder="Your Input"> <br/>
-                <input id="input1" type="checkbox" name="cbox" class="cbox" value="p">Player(s)<br/>
-                <input id="input2" type="checkbox" name="cbox" class="cbox" value="t">Trait(s) <br/>
+                <div class="constraints">
+                  <input id="input1" type="checkbox" name="cbox" class="cbox" value="p">Player(s)<br/>
+                  <input id="input2" type="checkbox" name="cbox" class="cbox" value="t">Trait(s) <br/>
+                </div>
             </div>
             <br/>
             <button type="submit" class="btn btn-info"> Go!</button>

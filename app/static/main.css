@@ -29,6 +29,7 @@ margin-left: 300px;
 margin-right: 300px;
 }
 .global-search .form-control {
+font-family:'Courier New', monospace;
 width:500px;
 
 }
@@ -41,23 +42,57 @@ margin-bottom:0;
 position:absolute;
 top:2%;
 right:2%;
+width:10%;
+overflow: auto;
+text-align: center;
+}
+button {
+  font-family:'Courier New', monospace;
 }
 .btn{
-background-color: blue;
+background-color: #820024;
 border: none
 }
-.cbox{
-width:100px;
-height:20px;
-padding-top:10px;
-padding-left:-20px;
+.btn:hover{
+  background-color: #E9A715;
 }
-.img{
+.form-group {
+  width: auto;
+}
+.cbox{
+width:auto;
+height:auto;
+float: left;
+}
+/* .img{
 background-color:transparent;
 width:10%;
 height:auto;
 padding-bottom:20px;
+} */
+
+.constraints {
+  margin: auto;
+  font-family:'Courier New', monospace;
 }
+
+.header {
+  width: 75%;
+  height: 100px;
+  position: relative;
+}
+
+.header img {
+    max-height: 40%;
+    max-width: 40%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
 .step-links a{
 color: #4285F4;
 }
