@@ -11,6 +11,9 @@ text-align:center;
 body {
 padding-top: 8%;
 padding-bottom: 15px;
+background-color:white;
+border-left:300px solid #024116;
+border-right:300px solid #024116;
 }
 @font-face {
 font-family: "esp";
@@ -20,9 +23,14 @@ url("fonts/esp/esp_bdit-webfont.woff") format("woff")
 .global-search {
 text-align:center;
 padding:10px;
+background-color:white;
+
+margin-left: 300px;
+margin-right: 300px;
 }
 .global-search .form-control {
 width:500px;
+
 }
 .global-search * {
 display:inline-block;
@@ -46,7 +54,7 @@ padding-left:-20px;
 }
 .img{
 background-color:transparent;
-width:7%;
+width:10%;
 height:auto;
 padding-bottom:20px;
 }
