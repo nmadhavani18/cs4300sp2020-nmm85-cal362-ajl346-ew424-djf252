@@ -1,26 +1,26 @@
 <html>
     <head>
         <link rel="stylesheet" href="/static/bootstrap.min.css">
-        <link rel="stylesheet" href="/static/main.css?v=1.0.23">
+        <link rel="stylesheet" href="/static/main.css?v=1.0.30">
     </head>
     <body>
         <div class="topcorner">
             <p>Project Name: {{ name }}</p>
             <p>Student Name: ({{ netid }})</p>
         </div>
-        
-        <form class="form-inline global-search">    
-            <h1 style="font-size: 55px; font-family:Futura; color:black; padding-top:10px">
+
+        <form class="form-inline global-search">
+            <h1 style="font-size: 55px; font-family:esp; color:black; padding-top:10px">
                 Parallel Pigskins
             </h1>
             <img src="{{url_for('static', filename='american_football_PNG59.png')}}" align="middle" class="img" />
             <br/>
-            
+
             <p style="font-size: 15px; color: black">Enter a list of either players or traits and then check the appropriate box.</p>
             <br/>
             <p style="font-size: 15px; color:black">For ex. "Tom Brady, Joe Montana, Aaron Rodgers"</p>
             <br><br>
-            
+
             <div class="form-group">
                 <input id="input" type="text" name="search" class="form-control" placeholder="Your Input"> <br/>
                 <input id="input1" type="checkbox" name="cbox" class="cbox" value="p">Player(s)<br/>
@@ -32,7 +32,7 @@
         <form class="form-inline global-search">
         {% if data %}
             <h1>{{output_message}}</h1>
-            {% for d in data %}  
+            {% for d in data %}
                 <br>
                 <p>{{d}}</p>
             {% endfor %}
