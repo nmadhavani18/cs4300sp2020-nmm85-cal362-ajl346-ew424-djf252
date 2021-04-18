@@ -1,7 +1,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="/static/bootstrap.min.css">
-        <link rel="stylesheet" href="/static/main.css?v=1.1.30">
+        <link rel="stylesheet" href="/static/main.css?v=1.1.42">
     </head>
     <body>
         <div class="topcorner">
@@ -13,10 +13,10 @@
 
         <form class="form-inline global-search">
           <div class = "header">
+            <img src="{{url_for('static', filename='football.png')}}" align="middle" class="img" />
             <h1 style="font-family:esp; color:#E9A715; padding-top:10px; text-shadow: -2px 0 #820024, 0 2px #820024, 2px 0 #820024, 0 -2px #820024">
                 Parallel Pigskins
             </h1>
-            <img src="{{url_for('static', filename='american_football_PNG59.png')}}" align="right" class="img" />
           </div>
             <br/>
 
@@ -28,8 +28,12 @@
             <div class="form-group">
                 <input id="input" type="text" name="search" class="form-control" placeholder="Your Input"> <br/>
                 <div class="constraints">
-                  <input id="input1" type="checkbox" name="cbox" class="cbox" value="p">Player(s)<br/>
-                  <input id="input2" type="checkbox" name="cbox" class="cbox" value="t">Trait(s) <br/>
+                  <div class="cbox1">
+                    <input id="input1" type="checkbox" name="cbox" class="cbox" value="p">Player(s)<br/>
+                  </div>
+                  <div class="cbox2">
+                    <input id="input2" type="checkbox" name="cbox" class="cbox" value="t">Trait(s) <br/>
+                  </div>
                 </div>
             </div>
             <br/>
