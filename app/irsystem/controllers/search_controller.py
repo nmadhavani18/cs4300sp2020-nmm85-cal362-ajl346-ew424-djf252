@@ -14,30 +14,35 @@ def search():
 	# Right now this is a list, (one of ['p'], ['t'], ['p', 't'], []) - cannot be empty or be both checked
 	checks = request.args.getlist('cbox')
 
-	#with app.open_resource('static/NFL_team_rosters.json') as t:
-		#teams = json.load(t)
-	f = current_app.open_resource('static/inverted_index.json')
-	inverted_index = json.load(f)
-	
+
 	# inverted_index: {key -> [player, count] list}
 	
 	if query:
 		results = {}
-		q_traits = query.split(",")
-		for word in q_traits:
+		q_split = query.split(",")
+		inverted_index = {}
+		
+		if checks == ['t']:
+			f1 = current_app.open_resource('static/inverted_index.json')
+			inverted_index = json.load(f1)
+		else:
+			f2 = current_app.open_resource('static/inverted_index2.json')
+			inverted_index = json.load(f2)
+			
+		for word in q_split:
 			wl = word.lower()
 			if wl in inverted_index:
 				
-				for player, score in inverted_index[wl]:
-					results[player] = results.get(player, 0) + score 
-
+				for k, val in inverted_index[wl]:
+					results[k] = results.get(k, 0) + val
+			
 		scores = [(player, score) for player, score in results.items()]
 		scores.sort(reverse=True, key=lambda x: x[1])
 		data = [player for player, _ in scores]
-		data = data[:5]
-		print(data)	
-	
-	
+		data = data[:5] # limit to top 5
+				
+
+
 	if not query or len(checks) == 0:
 		data = []
 		output_message = ''
