@@ -41,10 +41,10 @@
         </form>
         <form class="form-inline global-search">
         {% if data %}
-            <h1>{{output_message}}</h1>
+            <h1 style="font-family:esp; font-size: 25px; color:#820024; padding-top:10px; text-shadow: -2px 0 #E9A715, 0 2px #E9A715, 2px 0 #E9A715, 0 -2px #E9A715">{{output_message}}</h1>
             {% for d in data %}
                 <br>
-                <p>{{d}}</p>
+                <p style="font-family:esp; font-size: 20px; color:#E9A715; padding-top:10px; text-shadow: -1.5px 0 #820024, 0 1.5px #820024, 1.5px 0 #820024, 0 -1.5px #820024">{{d}}</p>
             {% endfor %}
         {% endif %}
         </form>
