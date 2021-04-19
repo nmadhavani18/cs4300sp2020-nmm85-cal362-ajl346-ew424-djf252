@@ -16,16 +16,28 @@ def search():
 
 	#with app.open_resource('static/NFL_team_rosters.json') as t:
 		#teams = json.load(t)
+	f = current_app.open_resource('static/inverted_index.json')
+	inverted_index = json.load(f)
 	
-
-	# This is a test to see if we can load static json files into our logic - check console to see that it prints
-	# We can store our data (ranking system) as JSONs and then access them upon a query
-	f = current_app.open_resource('static/NFL_team_rosters.json')
-	teams = json.load(f)
-	print("# of teams is: ", len(teams))
+	# inverted_index: {key -> [player, count] list}
 	
+	if query:
+		results = {}
+		q_traits = query.split(",")
+		for word in q_traits:
+			wl = word.lower()
+			if wl in inverted_index:
+				
+				for player, score in inverted_index[wl]:
+					results[player] = results.get(player, 0) + score 
 
-
+		scores = [(player, score) for player, score in results.items()]
+		scores.sort(reverse=True, key=lambda x: x[1])
+		data = [player for player, _ in scores]
+		data = data[:5]
+		print(data)	
+	
+	
 	if not query or len(checks) == 0:
 		data = []
 		output_message = ''
@@ -34,5 +46,5 @@ def search():
 		output_message = "Error: two boxes checked. Only check one box."
 	else:
 		output_message = "Your search: " + query
-		data = range(5)
+		# data = range(5)
 	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=data)
