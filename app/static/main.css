@@ -1,9 +1,9 @@
-@media (min-width: 1200px) {
+/* @media (min-width: 1200px) {
 .container {
     max-width: 970px;
 }
-}
-@media (min-width:400px){
+} */
+@media (min-width:1200px){
 .global-search {
 padding: 20px 0;
 text-align:center;
@@ -12,8 +12,8 @@ body {
 padding-top: 8%;
 padding-bottom: 8%;
 background-color:white;
-border-left:25em solid #024116;
-border-right:25em solid #024116;
+border-left:20em solid #024116;
+border-right:20em solid #024116;
 }
 @font-face {
 font-family: "esp";
@@ -30,7 +30,7 @@ margin-right: 17em;
 }
 .global-search .form-control {
 font-family:'Courier New', monospace;
-width:50em;
+width:100%;
 
 }
 .global-search * {
@@ -57,8 +57,21 @@ border: none
   background-color: #E9A715;
 }
 .form-group {
-  width: 100%;
+  width: auto;
+  position: relative;
+  overflow: hidden;
+  margin: auto;
 }
+
+/* input.form-control input {
+  width: auto;
+} */
+
+.form-group form-control {
+  width: 100%;
+  height: auto;
+}
+
 .cbox{
 width:auto;
 height:auto;
@@ -78,7 +91,7 @@ padding-bottom:20px;
 }
 
 .header {
-  width: 30%;
+  width: auto;
   height: 20em;
   position: relative;
 }
@@ -97,6 +110,10 @@ padding-bottom:20px;
     max-width: 50%;
     max-height: 50%;
     margin: auto;
+}
+
+.header h1 {
+  width:100%;
 }
 
 .step-links a{

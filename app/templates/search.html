@@ -1,7 +1,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="/static/bootstrap.min.css">
-        <link rel="stylesheet" href="/static/main.css?v=1.1.65">
+        <link rel="stylesheet" href="/static/main.css?v=1.2.13">
     </head>
     <body>
         <div class="topcorner">
@@ -24,18 +24,17 @@
             <br/>
             <p style="font-family:'Courier New', monospace; font-size: 15px; color:black">For ex. "Tom Brady, Joe Montana, Aaron Rodgers"</p>
             <br><br>
-
-            <div class="form-group">
-                <input id="input" type="text" name="search" class="form-control" placeholder="Your Input"> <br/>
-                <div class="constraints">
-                  <div class="cbox1">
-                    <input id="input1" type="checkbox" name="cbox" class="cbox" value="p">Player(s)<br/>
+              <div class="form-group">
+                  <input id="input" type="text" name="search" class="form-control" placeholder="Your Input"> <br/>
+                  <div class="constraints">
+                    <div class="cbox1">
+                      <input id="input1" type="checkbox" name="cbox" class="cbox" value="p">Player(s)<br/>
+                    </div>
+                    <div class="cbox2">
+                      <input id="input2" type="checkbox" name="cbox" class="cbox" value="t">Trait(s) <br/>
+                    </div>
                   </div>
-                  <div class="cbox2">
-                    <input id="input2" type="checkbox" name="cbox" class="cbox" value="t">Trait(s) <br/>
-                  </div>
-                </div>
-            </div>
+              </div>
             <br/>
             <button type="submit" class="btn btn-info"> Go!</button>
         </form>
