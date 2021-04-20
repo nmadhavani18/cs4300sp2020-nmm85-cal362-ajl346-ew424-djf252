@@ -40,11 +40,12 @@ margin-bottom:0;
 }
 .topcorner{
 position:absolute;
-top:2%;
-right:2%;
-width:17em;
+top:0%;
+right:0%;
+width:20em;
 overflow: auto;
 text-align: center;
+padding: 1em;
 }
 button {
   font-family:'Courier New', monospace;
