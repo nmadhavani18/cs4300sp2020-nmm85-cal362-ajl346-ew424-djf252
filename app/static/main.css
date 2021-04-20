@@ -21,7 +21,7 @@ src:
 url("fonts/esp/esp_bdit-webfont.woff") format("woff")
 }
 .global-search {
-text-align:center;
+text-align:-webkit-center;
 padding:10px;
 background-color:white;
 
@@ -95,6 +95,8 @@ padding-bottom:20px;
   width: auto;
   height: 20em;
   position: relative;
+  display: table-cell;
+  vertical-align: bottom;
 }
 
 .cbox1 {
@@ -115,6 +117,7 @@ padding-bottom:20px;
 
 .header h1 {
   width:100%;
+  align-self: flex-end;
 }
 
 .step-links a{
