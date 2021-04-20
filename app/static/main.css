@@ -10,10 +10,10 @@ text-align:center;
 }
 body {
 padding-top: 8%;
-padding-bottom: 15px;
+padding-bottom: 8%;
 background-color:white;
-border-left:300px solid #024116;
-border-right:300px solid #024116;
+border-left:20em solid #024116;
+border-right:20em solid #024116;
 }
 @font-face {
 font-family: "esp";
@@ -25,12 +25,12 @@ text-align:center;
 padding:10px;
 background-color:white;
 
-margin-left: 300px;
-margin-right: 300px;
+margin-left: 17em;
+margin-right: 17em;
 }
 .global-search .form-control {
 font-family:'Courier New', monospace;
-width:500px;
+width:50em;
 
 }
 .global-search * {
@@ -78,8 +78,8 @@ padding-bottom:20px;
 }
 
 .header {
-  width: 75%;
-  height: 200px;
+  width: 65%;
+  height: 20em;
   position: relative;
 }
 
