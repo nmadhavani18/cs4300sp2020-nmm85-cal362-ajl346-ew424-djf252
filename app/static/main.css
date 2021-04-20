@@ -12,8 +12,8 @@ body {
 padding-top: 8%;
 padding-bottom: 8%;
 background-color:white;
-border-left:20em solid #024116;
-border-right:20em solid #024116;
+border-left:25em solid #024116;
+border-right:25em solid #024116;
 }
 @font-face {
 font-family: "esp";
@@ -42,7 +42,7 @@ margin-bottom:0;
 position:absolute;
 top:2%;
 right:2%;
-width:10%;
+width:17em;
 overflow: auto;
 text-align: center;
 }
@@ -57,7 +57,7 @@ border: none
   background-color: #E9A715;
 }
 .form-group {
-  width: auto;
+  width: 100%;
 }
 .cbox{
 width:auto;
@@ -78,7 +78,7 @@ padding-bottom:20px;
 }
 
 .header {
-  width: 65%;
+  width: 30%;
   height: 20em;
   position: relative;
 }
