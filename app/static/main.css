@@ -14,6 +14,7 @@ padding-bottom: 8%;
 background-color:white;
 border-left:20em solid #024116;
 border-right:20em solid #024116;
+text-align: -webkit-center;
 }
 @font-face {
 font-family: "esp";
@@ -24,15 +25,23 @@ url("fonts/esp/esp_bdit-webfont.woff") format("woff")
 text-align:-webkit-center;
 padding:10px;
 background-color:white;
-
-margin-left: 17em;
-margin-right: 17em;
+margin: auto;
+padding-bottom: 3em;
 }
 .global-search .form-control {
 font-family:'Courier New', monospace;
 width:100%;
 
 }
+
+.form-inline-global-search {
+  display: block;
+  text-align:-webkit-center;
+  background-color: white;
+  padding: 1em;
+  width: 50%;
+}
+
 .global-search * {
 display:inline-block;
 margin-bottom:0;
@@ -57,6 +66,7 @@ border: none
 .btn:hover{
   background-color: #E9A715;
 }
+
 .form-group {
   width: auto;
   position: relative;
