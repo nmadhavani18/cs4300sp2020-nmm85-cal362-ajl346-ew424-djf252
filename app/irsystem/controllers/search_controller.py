@@ -10,6 +10,9 @@ net_id = "Neil Madhavani nmm85, Cal Lombardo cal362, Alex Lin ajl346, Eric White
 @irsystem.route('/', methods=['GET'])
 def search():
 	query = request.args.get('search')
+	clear = request.args.get('results')
+	print("clear is: ", clear)
+	print("query is: ", query)
 	
 	# Right now this is a list, (one of ['p'], ['t'], ['p', 't'], []) - cannot be empty or be both checked
 	checks = request.args.getlist('cbox')
@@ -51,5 +54,8 @@ def search():
 		output_message = "Error: two boxes checked. Only check one box."
 	else:
 		output_message = "Your search: " + query
+		if data == []:
+			data = ["Error: no results found. Change input and retry."]
+		return render_template('results.html', name=project_name, netid=net_id, output_message=output_message, data=data)
 		# data = range(5)
 	return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=data)
