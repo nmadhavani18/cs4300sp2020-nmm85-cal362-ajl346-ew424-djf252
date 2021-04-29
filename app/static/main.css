@@ -31,9 +31,9 @@
   .global-search .form-control {
   font-family:'Courier New', monospace;
   width:30em;
-  
+
   }
-  
+
   .form-inline-global-search {
     display: block;
     text-align:-webkit-center;
@@ -41,7 +41,7 @@
     padding: 1em;
     width: 50%;
   }
-  
+
   .global-search * {
   display:inline-block;
   margin-bottom:0;
@@ -56,7 +56,7 @@
   text-align: center;
   padding: 1em;
   }
-  
+
   .form-control {
     border: none;
     box-shadow: none;
@@ -64,18 +64,18 @@
     border-radius: 0px;
     border-bottom: 1px solid #820024;
   }
-  
+
   .form-control:hover {
     box-shadow: 2px 4px 5px #820024;
   }
   .cbox:hover{
     box-shadow: 2px 4px 5px #820024;
   }
-  
+
   button {
     font-family:'Courier New', monospace;
   }
-  
+
   .btn{
   background-color: #820024;
   border: none
@@ -83,34 +83,34 @@
   .btn:hover{
     background-color: #E9A715;
   }
-  
+
   .form-group {
     width: auto;
     position: relative;
     overflow: hidden;
     margin: auto;
   }
-  
+
   /* input.form-control input {
     width: auto;
   } */
-  
+
   .form-group form-control {
     width: 100%;
     height: auto;
   }
-  
+
   .cbox{
   width:auto;
   height:auto;
   float: left;
   }
-  
+
   .constraints {
     margin: auto;
     font-family:'Courier New', monospace;
   }
-  
+
   .header {
     width: auto;
     height: 20em;
@@ -118,20 +118,20 @@
     display: table-cell;
     vertical-align: bottom;
   }
-  
+
   .res-header {
     width: auto;
     position: relative;
     top: 0%;
-  
+
   }
-  
+
   .res-header img {
     max-width: 50%;
     max-height: 50%;
     margin: auto;
   }
-  
+
   .cbox1 {
     width: 100%;
     padding-top: 10px;
@@ -141,19 +141,18 @@
     padding-top: 10px;
     padding-bottom: 10px;
   }
-  
+
   .header img {
       max-width: 50%;
       max-height: 50%;
       margin: auto;
   }
-  
+
   .header h1 {
     width:100%;
     align-self: flex-end;
   }
-  
+
   .step-links a{
   color: #4285F4;
   }
-  
