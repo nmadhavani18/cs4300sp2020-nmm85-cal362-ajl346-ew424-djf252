@@ -87,6 +87,7 @@ def main():
         output5 += [(response5["items"][i]["snippet"]["thumbnails"]["high"]["url"],
             "https://www.youtube.com/watch?v=" + response5["items"][i]["id"]["videoId"])]
 
+    print(output1)
     return (output1, output2, output3, output4, output5)
 
 if __name__ == "__main__":
