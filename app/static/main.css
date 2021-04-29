@@ -4,149 +4,156 @@
 }
 } */
 @media (min-width:1200px){
-.global-search {
-padding: 20px 0;
-text-align:center;
-}
-body {
-padding-top: 8%;
-padding-bottom: 8%;
-background-color:white;
-border-left:20em solid #024116;
-border-right:20em solid #024116;
-text-align: -webkit-center;
-}
-@font-face {
-font-family: "esp";
-src:
-url("fonts/esp/esp_bdit-webfont.woff") format("woff")
-}
-.global-search {
-text-align:-webkit-center;
-padding:10px;
-background-color:white;
-margin: auto;
-padding-bottom: 3em;
-}
-.global-search .form-control {
-font-family:'Courier New', monospace;
-width:30em;
-
-}
-
-.form-inline-global-search {
-  display: block;
+  .global-search {
+  padding: 20px 0;
+  text-align:center;
+  }
+  body {
+  padding-top: 8%;
+  padding-bottom: 8%;
+  background-color:white;
+  border-left:20em solid #024116;
+  border-right:20em solid #024116;
+  text-align: -webkit-center;
+  }
+  @font-face {
+  font-family: "esp";
+  src:
+  url("fonts/esp/esp_bdit-webfont.woff") format("woff")
+  }
+  .global-search {
   text-align:-webkit-center;
-  background-color: white;
+  padding:10px;
+  background-color:white;
+  margin: auto;
+  padding-bottom: 3em;
+  }
+  .global-search .form-control {
+  font-family:'Courier New', monospace;
+  width:30em;
+  
+  }
+  
+  .form-inline-global-search {
+    display: block;
+    text-align:-webkit-center;
+    background-color: white;
+    padding: 1em;
+    width: 50%;
+  }
+  
+  .global-search * {
+  display:inline-block;
+  margin-bottom:0;
+  }
+  }
+  .topcorner{
+  position:absolute;
+  top:0%;
+  right:0%;
+  width:20em;
+  overflow: auto;
+  text-align: center;
   padding: 1em;
-  width: 50%;
-}
-
-.global-search * {
-display:inline-block;
-margin-bottom:0;
-}
-}
-.topcorner{
-position:absolute;
-top:0%;
-right:0%;
-width:20em;
-overflow: auto;
-text-align: center;
-padding: 1em;
-}
-
-.form-control {
-  border: none;
-  box-shadow: none;
-  padding: 0;
-  border-radius: 0px;
-  border-bottom: 1px solid #820024;
-}
-
-.form-control:hover {
-  box-shadow: 2px 4px 5px #820024;
-}
-.cbox:hover{
-  box-shadow: 2px 4px 5px #820024;
-}
-
-button {
-  font-family:'Courier New', monospace;
-}
-
-.btn{
-background-color: #820024;
-border: none
-}
-.btn:hover{
-  background-color: #E9A715;
-}
-
-.form-group {
-  width: auto;
-  position: relative;
-  overflow: hidden;
-  margin: auto;
-}
-
-/* input.form-control input {
-  width: auto;
-} */
-
-.form-group form-control {
-  width: 100%;
-  height: auto;
-}
-
-.cbox{
-width:auto;
-height:auto;
-float: left;
-}
-
-/* .img{
-background-color:transparent;
-width:10%;
-height:auto;
-padding-bottom:20px;
-} */
-
-.constraints {
-  margin: auto;
-  font-family:'Courier New', monospace;
-}
-
-.header {
-  width: auto;
-  height: 20em;
-  position: relative;
-  display: table-cell;
-  vertical-align: bottom;
-}
-
-.cbox1 {
-  width: 100%;
-  padding-top: 10px;
-}
-.cbox2 {
-  width: 100%;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-.header img {
+  }
+  
+  .form-control {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    border-radius: 0px;
+    border-bottom: 1px solid #820024;
+  }
+  
+  .form-control:hover {
+    box-shadow: 2px 4px 5px #820024;
+  }
+  .cbox:hover{
+    box-shadow: 2px 4px 5px #820024;
+  }
+  
+  button {
+    font-family:'Courier New', monospace;
+  }
+  
+  .btn{
+  background-color: #820024;
+  border: none
+  }
+  .btn:hover{
+    background-color: #E9A715;
+  }
+  
+  .form-group {
+    width: auto;
+    position: relative;
+    overflow: hidden;
+    margin: auto;
+  }
+  
+  /* input.form-control input {
+    width: auto;
+  } */
+  
+  .form-group form-control {
+    width: 100%;
+    height: auto;
+  }
+  
+  .cbox{
+  width:auto;
+  height:auto;
+  float: left;
+  }
+  
+  .constraints {
+    margin: auto;
+    font-family:'Courier New', monospace;
+  }
+  
+  .header {
+    width: auto;
+    height: 20em;
+    position: relative;
+    display: table-cell;
+    vertical-align: bottom;
+  }
+  
+  .res-header {
+    width: auto;
+    position: relative;
+    top: 0%;
+  
+  }
+  
+  .res-header img {
     max-width: 50%;
     max-height: 50%;
     margin: auto;
-}
-
-.header h1 {
-  width:100%;
-  align-self: flex-end;
-}
-
-.step-links a{
-color: #4285F4;
-}
+  }
+  
+  .cbox1 {
+    width: 100%;
+    padding-top: 10px;
+  }
+  .cbox2 {
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  
+  .header img {
+      max-width: 50%;
+      max-height: 50%;
+      margin: auto;
+  }
+  
+  .header h1 {
+    width:100%;
+    align-self: flex-end;
+  }
+  
+  .step-links a{
+  color: #4285F4;
+  }
+  

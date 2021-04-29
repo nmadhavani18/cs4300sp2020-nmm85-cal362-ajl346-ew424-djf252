@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="/static/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/main.css?v=1.3.12">
+    </head>
+    <body>
+        <div class="topcorner">
+            <p style=color:#E9A715>Project Name: {{ name }}</p>
+            <p style=color:#E9A715>Student Names: ({{ netid }})</p>
+        </div>
+          <div class = "res-header">
+            <h1 style="font-family:esp; color:#E9A715; text-shadow: -2px 0 #820024, 0 2px #820024, 2px 0 #820024, 0 -2px #820024">
+                Parallel Pigskins
+            </h1>
+          </div>
+        <form class="form-inline-global-search">
+        {% if data %}
+            <h1 style="font-family:esp; font-size: 25px; color:#820024; padding-top:10px; text-shadow: -2px 0 #E9A715, 0 2px #E9A715, 2px 0 #E9A715, 0 -2px #E9A715">{{output_message}}</h1>
+            {% for d in data %}
+                <br>
+                <p style="font-family:esp; font-size: 20px; color:#E9A715; padding-top:10px; text-shadow: -1.5px 0 #820024, 0 1.5px #820024, 1.5px 0 #820024, 0 -1.5px #820024">{{d}}</p>
+            {% endfor %}
+        {% endif %}
+            <br/>
+            <button type="submit" class="btn btn-info"> Clear Results</button>
+        </form>
+
+        
+    </body>
+
+</html>
