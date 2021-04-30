@@ -16,26 +16,22 @@
         <form class="form-inline-global-search">
         {% if data %}
             <h1 style="font-family:esp; font-size: 25px; color:#820024; padding-top:10px; text-shadow: -2px 0 #E9A715, 0 2px #E9A715, 2px 0 #E9A715, 0 -2px #E9A715">{{output_message}}</h1>
-            {% for d in data %}    
+            {% for d in data %}
                 <br/><br/>
                 <div class="res-card">
                     <p style="font-family:esp; font-size: 20px; color:#E9A715; padding-top:10px; text-shadow: -1.5px 0 #820024, 0 1.5px #820024, 1.5px 0 #820024, 0 -1.5px #820024">{{d[0]}}</p>
                     <p style="font-weight: bold; font-size: 14px">Top Traits:  </p>
-                    <a href="{{d[2]}}" style="font-size: 14px; padding-top: 10%">{{d[3]}}</a> 
+                    <a href="{{d[2]}}" style="font-size: 14px; padding-top: 10%">{{d[3]}}</a>
                     <br/><br/>
                     <img src="{{d[1]}}" class="thumb">
                  </div>
             {% endfor %}
-            
+
         {% endif %}
             <br/>
             <button type="submit" class="btn btn-info"> Clear Results</button>
         </form>
-
-        <form action="myphpfile.php">
-          <input type="submit" value="click on me!">
-        </form>
-
+        
     </body>
 
 </html>
