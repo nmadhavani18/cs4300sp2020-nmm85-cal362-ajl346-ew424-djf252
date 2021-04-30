@@ -5,9 +5,24 @@ from flask import current_app
 import json
 import math
 import numpy as np
+import io
+import os
+import sys
+import pprint
+import googleapiclient.discovery
 
 project_name = "Parallel Pigskins: Football Player Similarity Engine"
 net_id = "Neil Madhavani nmm85, Cal Lombardo cal362, Alex Lin ajl346, Eric Whitehead ew424, David Fleurantin djf252"
+
+os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
+
+api_service_name = "youtube"
+api_version = "v3"
+# DEVELOPER_KEY = "AIzaSyBv8cM9jRZfZ2QmVcnSqMunqzIFr4PwZxg"
+DEVELOPER_KEY = "AIzaSyAORCs5Nvrxu1rsufxjcvcLB4zw32AcdBc"
+
+youtube = googleapiclient.discovery.build(
+    api_service_name, api_version, developerKey = DEVELOPER_KEY)
 
 
 @irsystem.route('/', methods=['GET'])
@@ -100,6 +115,13 @@ def search():
         scores.sort(reverse=True, key=lambda x: x[1])
         data = [player for player, _ in scores]
         data = data[:5]  # limit to top 5
+        
+        for i in range(len(data)):
+            thumb, link, title = ytHighlights(data[i])
+            updateTitle(title)
+            data[i] = [data[i], thumb, link, updateTitle(title)]
+
+            print(data)
 
     if not query or len(checks) == 0:
         data = []
@@ -114,3 +136,31 @@ def search():
         return render_template('results.html', name=project_name, netid=net_id, output_message=output_message, data=data)
         # data = range(5)
     return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=data)
+
+
+def ytHighlights(player_name):
+    # print("Highlights check")
+    request = youtube.search().list(
+        part="snippet",
+        q= player_name + " highlights"
+    )
+
+    response = request.execute()
+    responseJson = json.dumps(response)
+    output1 = (response["items"][0]["snippet"]["thumbnails"]["high"]["url"],
+            "https://www.youtube.com/watch?v=" + response["items"][0]["id"]["videoId"], 
+            response["items"][0]["snippet"]["title"])
+    return output1
+
+# Some youtube titles have "&quot;" instead of " and #39 instead of ', so this eliminates them
+def updateTitle(title):
+    title = title.split("&quot;")
+    new_t = ""
+    for t in title:
+        new_t += t + " "
+
+    new_t = new_t.split("&#39;")
+    title = ""
+    for t in new_t:
+        title += t + " "
+    return title
