@@ -118,6 +118,7 @@ def search():
         
         for i in range(len(data)):
             thumb, link, title = ytHighlights(data[i])
+            # thumb, link, title = "blank", "blank", "blank"
             updateTitle(title)
             data[i] = [data[i], thumb, link, updateTitle(title)]
 

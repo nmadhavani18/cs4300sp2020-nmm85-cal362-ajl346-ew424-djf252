@@ -105,10 +105,14 @@
   height:auto;
   float: left;
   }
+  .res-cbox{
+    text-align:-webkit-center;
+  }
 
   .constraints {
     margin: auto;
     font-family:'Courier New', monospace;
+    width:100%;
   }
 
   .header {
@@ -131,7 +135,10 @@
     max-height: 50%;
     margin: auto;
   }
-
+  .res-cbox1{
+    width: 100%;
+    text-align: center;
+  }
   .cbox1 {
     width: 100%;
     padding-top: 10px;
