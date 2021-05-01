@@ -18,8 +18,11 @@ os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 api_service_name = "youtube"
 api_version = "v3"
-# DEVELOPER_KEY = "AIzaSyBv8cM9jRZfZ2QmVcnSqMunqzIFr4PwZxg"
-DEVELOPER_KEY = "AIzaSyAORCs5Nvrxu1rsufxjcvcLB4zw32AcdBc"
+DEVELOPER_KEY = "AIzaSyBv8cM9jRZfZ2QmVcnSqMunqzIFr4PwZxg"
+# DEVELOPER_KEY = "AIzaSyAORCs5Nvrxu1rsufxjcvcLB4zw32AcdBc"
+# DEVELOPER_KEY = "AIzaSyBXF84YPcwV38EB0E3im_CHi951OHUYKGs"
+# DEVELOPER_KEY = "AIzaSyAc9eFivfJBHtDY7Rs7dn4a3gJcXBNQCWU"
+# DEVELOPER_KEY = "AIzaSyDxMRllRdEV0ei9OC1T_bbnjKJ5j1Na0oo"
 
 youtube = googleapiclient.discovery.build(
     api_service_name, api_version, developerKey = DEVELOPER_KEY)
@@ -64,7 +67,7 @@ def search():
                 num = entry[1]
                 term_idx = term_inverse_index[term]
                 tp_matrix[player_idx, term_idx] = num
-        
+
         if checks == ['t']:
             for word in q_split:
                 wl = word.lower()
@@ -105,7 +108,7 @@ def search():
         #             normal_sum = 0
         #             for lst in player_term_index[player]:
         #                 normal_sum += lst[1]^2
-                    
+
         #             entry[1] = num / math.sqrt(normal_sum)
 
         #         for k, val in term_player_index[wl]:
@@ -115,7 +118,7 @@ def search():
         scores.sort(reverse=True, key=lambda x: x[1])
         data = [player for player, _ in scores]
         data = data[:5]  # limit to top 5
-        
+
         for i in range(len(data)):
             thumb, link, title = ytHighlights(data[i])
             # thumb, link, title = "blank", "blank", "blank"
@@ -149,7 +152,7 @@ def ytHighlights(player_name):
     response = request.execute()
     responseJson = json.dumps(response)
     output1 = (response["items"][0]["snippet"]["thumbnails"]["high"]["url"],
-            "https://www.youtube.com/watch?v=" + response["items"][0]["id"]["videoId"], 
+            "https://www.youtube.com/watch?v=" + response["items"][0]["id"]["videoId"],
             response["items"][0]["snippet"]["title"])
     return output1
 
