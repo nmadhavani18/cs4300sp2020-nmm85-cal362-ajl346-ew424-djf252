@@ -28,12 +28,16 @@ youtube = googleapiclient.discovery.build(
     api_service_name, api_version, developerKey = DEVELOPER_KEY)
 
 
+term_player_index = {}
+player_term_index = {}
+
+
 @irsystem.route('/', methods=['GET'])
 def search():
     query = request.args.get('search')
     clear = request.args.get('results')
-    print("clear is: ", clear)
-    print("query is: ", query)
+    # print("clear is: ", clear)
+    # print("query is: ", query)
 
     # Right now this is a list, (one of ['p'], ['t'], ['p', 't'], []) - cannot be empty or be both checked
     checks = request.args.getlist('cbox')
@@ -47,19 +51,26 @@ def search():
         player_term_index = {}
 
         # original inverted indexes
-        f1 = current_app.open_resource('static/inverted_index.json')
-        term_player_index = json.load(f1)
+        if term_player_index == {}:
+            print("File opened")
+            f1 = current_app.open_resource('static/inverted_index.json')
+            term_player_index = json.load(f1)
 
-        f2 = current_app.open_resource('static/inverted_index2.json')
-        player_term_index = json.load(f2)
+        if player_term_index == {}:
+            print("File opened")
+            f2 = current_app.open_resource('static/inverted_index2.json')
+            player_term_index = json.load(f2)
 
         # player/term to numeric index
         term_inverse_index = {term : idx for idx, term in enumerate(term_player_index)}
         player_inverse_index = {player : idx for idx, player in enumerate(player_term_index)}
 
-        tp_matrix = np.zeros((len(player_inverse_index), len(term_inverse_index)))
+        
 
         # create player-term frequency matrix
+        """
+        tp_matrix = np.zeros((len(player_inverse_index), len(term_inverse_index)))
+
         for player in player_term_index:
             player_idx = player_inverse_index[player]
             for entry in player_term_index[player]:
@@ -67,6 +78,11 @@ def search():
                 num = entry[1]
                 term_idx = term_inverse_index[term]
                 tp_matrix[player_idx, term_idx] = num
+        """
+        tp_matrix = np.load('app/static/tp_matrix.npy')
+
+        np.save('app/static/tp_matrix', tp_matrix)
+
 
         if checks == ['t']:
             for word in q_split:
@@ -125,7 +141,7 @@ def search():
             updateTitle(title)
             data[i] = [data[i], thumb, link, updateTitle(title)]
 
-            print(data)
+
 
     if not query or len(checks) == 0:
         data = []
@@ -138,7 +154,7 @@ def search():
         if data == []:
             data = ["Error: no results found. Change input and retry."]
         return render_template('results.html', name=project_name, netid=net_id, output_message=output_message, data=data)
-        # data = range(5)
+    
     return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=data)
 
 
