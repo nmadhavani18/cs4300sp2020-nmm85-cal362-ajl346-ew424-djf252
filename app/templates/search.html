@@ -1,52 +1,61 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="/static/bootstrap.min.css">
-        <link rel="stylesheet" href="/static/main.css?v=1.3.13">
-    </head>
-    <body>
-        <div class="topcorner">
-            <p style=color:#E9A715>Project Name: {{ name }}</p>
-            <p style=color:#E9A715>Student Names: ({{ netid }})</p>
+
+<head>
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/main.css?v=1.3.13">
+</head>
+
+<body>
+  <div class="topcorner">
+    <p style=color:#E9A715>Project Name: {{ name }}</p>
+    <p style=color:#E9A715>Student Names: ({{ netid }})</p>
+  </div>
+  <div class="left-side"></div>
+  <div class="right-side"></div>
+
+  <form class="form-inline global-search">
+    <div class="header">
+      <img src="{{url_for('static', filename='football.png')}}" align="middle" class="img" />
+      <h1
+        style="font-family:esp; color:#E9A715; padding-top:10px; text-shadow: -2px 0 #820024, 0 2px #820024, 2px 0 #820024, 0 -2px #820024">
+        Parallel Pigskins
+      </h1>
+    </div>
+    <br />
+
+    <p style="font-family:'Courier New', monospace; font-size: 15px; color: black">Enter a list of either players or
+      traits and then check the appropriate box.</p>
+    <br />
+    <p style="font-family:'Courier New', monospace; font-size: 15px; color:black">For ex. "Tom Brady, Joe Montana, Aaron
+      Rodgers"</p>
+    <br><br>
+    <div class="form-group">
+      <input id="input" type="text" name="search" class="form-control" placeholder="Your Input"> <br />
+      <div class="constraints">
+        <div class="cbox1">
+          <input id="input1" type="checkbox" name="cbox" class="cbox" value="p">Player(s)<br />
         </div>
-        <div class="left-side"></div>
-        <div class="right-side"></div>
-
-        <form class="form-inline global-search">
-          <div class = "header">
-            <img src="{{url_for('static', filename='football.png')}}" align="middle" class="img" />
-            <h1 style="font-family:esp; color:#E9A715; padding-top:10px; text-shadow: -2px 0 #820024, 0 2px #820024, 2px 0 #820024, 0 -2px #820024">
-                Parallel Pigskins
-            </h1>
-          </div>
-            <br/>
-
-            <p style="font-family:'Courier New', monospace; font-size: 15px; color: black">Enter a list of either players or traits and then check the appropriate box.</p>
-            <br/>
-            <p style="font-family:'Courier New', monospace; font-size: 15px; color:black">For ex. "Tom Brady, Joe Montana, Aaron Rodgers"</p>
-            <br><br>
-              <div class="form-group">
-                  <input id="input" type="text" name="search" class="form-control" placeholder="Your Input"> <br/>
-                  <div class="constraints">
-                    <div class="cbox1">
-                      <input id="input1" type="checkbox" name="cbox" class="cbox" value="p">Player(s)<br/>
-                    </div>
-                    <div class="cbox2">
-                      <input id="input2" type="checkbox" name="cbox" class="cbox" value="t">Trait(s) <br/>
-                    </div>
-                  </div>
-              </div>
-            <br/>
-            <button type="submit" class="btn btn-info"> Go!</button>
-        </form>
-        <form class="form-inline-global-search">
-        {% if data %}
-            <h1 style="font-family:esp; font-size: 25px; color:#820024; padding-top:10px; text-shadow: -2px 0 #E9A715, 0 2px #E9A715, 2px 0 #E9A715, 0 -2px #E9A715">{{output_message}}</h1>
-            {% for d in data %}
-                <br>
-                <p style="font-family:esp; font-size: 20px; color:#E9A715; padding-top:10px; text-shadow: -1.5px 0 #820024, 0 1.5px #820024, 1.5px 0 #820024, 0 -1.5px #820024">{{d}}</p>
-            {% endfor %}
-        {% endif %}
-        </form>
-    </body>
+        <div class="cbox2">
+          <input id="input2" type="checkbox" name="cbox" class="cbox" value="t">Trait(s) <br />
+        </div>
+      </div>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-info"> Go!</button>
+  </form>
+  <form class="form-inline-global-search">
+    {% if data %}
+    <h1
+      style="font-family:esp; font-size: 25px; color:#820024; padding-top:10px; text-shadow: -2px 0 #E9A715, 0 2px #E9A715, 2px 0 #E9A715, 0 -2px #E9A715">
+      {{output_message}}</h1>
+    {% for d in data %}
+    <br>
+    <p
+      style="font-family:esp; font-size: 20px; color:#E9A715; padding-top:10px; text-shadow: -1.5px 0 #820024, 0 1.5px #820024, 1.5px 0 #820024, 0 -1.5px #820024">
+      {{d}}</p>
+    {% endfor %}
+    {% endif %}
+  </form>
+</body>
 
 </html>

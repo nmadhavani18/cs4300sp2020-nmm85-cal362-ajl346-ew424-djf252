@@ -1,7 +1,7 @@
 from . import *
 from app.irsystem.models.helpers import *
 from app.irsystem.models.helpers import NumpyEncoder as NumpyEncoder
-from flask import current_app
+from flask import current_app, session
 import json
 import math
 import numpy as np
@@ -32,6 +32,7 @@ term_player_index = {}
 player_term_index = {}
 
 
+
 @irsystem.route('/', methods=['GET'])
 def search():
     query = request.args.get('search')
@@ -41,6 +42,9 @@ def search():
 
     # Right now this is a list, (one of ['p'], ['t'], ['p', 't'], []) - cannot be empty or be both checked
     checks = request.args.getlist('cbox')
+
+    session['query'] = query
+    session['checks'] = checks
 
     # inverted_index: {key -> [player, count] list}
 
@@ -113,27 +117,11 @@ def search():
 
                             results[player] = CS_num / (norm1 * norm2)
 
-        # for word in q_split:
-        #     wl = word.lower()
-        #     if wl in term_player_index:
-
-        #         for entry in term_player_index[wl]:
-        #             player = entry[0]
-        #             num = entry[1]
-
-        #             normal_sum = 0
-        #             for lst in player_term_index[player]:
-        #                 normal_sum += lst[1]^2
-
-        #             entry[1] = num / math.sqrt(normal_sum)
-
-        #         for k, val in term_player_index[wl]:
-        #             results[k] = results.get(k, 0) + val
-
         scores = [(player, score) for player, score in results.items()]
         scores.sort(reverse=True, key=lambda x: x[1])
         data = [player for player, _ in scores]
         data = data[:5]  # limit to top 5
+        # print(data)
 
         for i in range(len(data)):
             thumb, link, title = ytHighlights(data[i])
@@ -184,3 +172,61 @@ def updateTitle(title):
     for t in new_t:
         title += t + " "
     return title
+
+@irsystem.route('/results')
+def results():
+    term_player_index = {}
+    player_term_index = {}
+
+    print("File opened")
+    f1 = current_app.open_resource('static/inverted_index.json')
+    term_player_index = json.load(f1)
+
+    print("File opened")
+    f2 = current_app.open_resource('static/inverted_index2.json')
+    player_term_index = json.load(f2)
+
+    term_inverse_index = {term : idx for idx, term in enumerate(term_player_index)}
+    player_inverse_index = {player : idx for idx, player in enumerate(player_term_index)}
+
+    disagreed = request.args.getlist('newcbox')
+    query = session.get('query')
+    checks = session.get('checks')
+
+    tp_matrix = np.load('app/static/tp_matrix.npy')
+    output_message = ''
+    data = []
+
+    # print("update")
+
+    # get associated result which is agreed/disagreed with
+
+    if checks == ['t']:
+        # print("checked")
+        term_index = term_inverse_index[query]
+        for player in disagreed:
+            player_index = player_inverse_index[player]
+            old = tp_matrix[player_index, term_index]
+            tp_matrix[player_index, term_index] = 0
+            new = tp_matrix[player_index, term_index]
+
+            print(old)
+            print(new)
+        
+        np.save('app/static/tp_matrix', tp_matrix)
+
+    else:
+        # print("hi")
+        # change this part for player-to-player feedback
+        term_index = term_inverse_index[query]
+        for player in disagreed:
+            player_index = player_inverse_index[player]
+            tp_matrix[player_index, term_index] = 0
+        
+        np.save('app/static/tp_matrix', tp_matrix)
+    
+    return redirect(url_for('irsystem.search'))
+
+    # return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=data)
+
+
