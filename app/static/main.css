@@ -112,7 +112,7 @@
   .constraints {
     margin: auto;
     font-family:'Courier New', monospace;
-    width:100%;
+    width:7em;
   }
 
   .header {
@@ -140,11 +140,11 @@
     text-align: center;
   }
   .cbox1 {
-    width: 100%;
+    width: 7em;
     padding-top: 10px;
   }
   .cbox2 {
-    width: 100%;
+    width: 7em;
     padding-top: 10px;
     padding-bottom: 10px;
   }
@@ -180,7 +180,7 @@
   }
 
   .cbox3 {
-    width: 12em;
+    width: 100%;
     /* padding-top: 10px; */
 
   }
