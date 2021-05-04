@@ -20,8 +20,8 @@ api_service_name = "youtube"
 api_version = "v3"
 # DEVELOPER_KEY = "AIzaSyBv8cM9jRZfZ2QmVcnSqMunqzIFr4PwZxg"
 # DEVELOPER_KEY = "AIzaSyAORCs5Nvrxu1rsufxjcvcLB4zw32AcdBc"
-DEVELOPER_KEY = "AIzaSyBXF84YPcwV38EB0E3im_CHi951OHUYKGs"
-# DEVELOPER_KEY = "AIzaSyAc9eFivfJBHtDY7Rs7dn4a3gJcXBNQCWU"
+# DEVELOPER_KEY = "AIzaSyBXF84YPcwV38EB0E3im_CHi951OHUYKGs"
+DEVELOPER_KEY = "AIzaSyAc9eFivfJBHtDY7Rs7dn4a3gJcXBNQCWU"
 # DEVELOPER_KEY = "AIzaSyDxMRllRdEV0ei9OC1T_bbnjKJ5j1Na0oo"
 
 youtube = googleapiclient.discovery.build(
@@ -65,7 +65,7 @@ def search():
         term_inverse_index = {term : idx for idx, term in enumerate(term_player_index)}
         player_inverse_index = {player : idx for idx, player in enumerate(player_term_index)}
 
-        
+
 
         # create player-term frequency matrix
         """
@@ -154,7 +154,7 @@ def search():
         if data == []:
             data = ["Error: no results found. Change input and retry."]
         return render_template('results.html', name=project_name, netid=net_id, output_message=output_message, data=data)
-    
+
     return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=data)
 
 
