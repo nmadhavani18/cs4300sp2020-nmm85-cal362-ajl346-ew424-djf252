@@ -21,8 +21,8 @@ api_version = "v3"
 # DEVELOPER_KEY = "AIzaSyBv8cM9jRZfZ2QmVcnSqMunqzIFr4PwZxg"
 # DEVELOPER_KEY = "AIzaSyAORCs5Nvrxu1rsufxjcvcLB4zw32AcdBc"
 # DEVELOPER_KEY = "AIzaSyBXF84YPcwV38EB0E3im_CHi951OHUYKGs"
-DEVELOPER_KEY = "AIzaSyAc9eFivfJBHtDY7Rs7dn4a3gJcXBNQCWU"
-# DEVELOPER_KEY = "AIzaSyDxMRllRdEV0ei9OC1T_bbnjKJ5j1Na0oo"
+# DEVELOPER_KEY = "AIzaSyAc9eFivfJBHtDY7Rs7dn4a3gJcXBNQCWU"
+DEVELOPER_KEY = "AIzaSyDxMRllRdEV0ei9OC1T_bbnjKJ5j1Na0oo"
 
 youtube = googleapiclient.discovery.build(
     api_service_name, api_version, developerKey = DEVELOPER_KEY)
@@ -212,7 +212,7 @@ def results():
 
             print(old)
             print(new)
-        
+
         np.save('app/static/tp_matrix', tp_matrix)
 
     else:
@@ -222,11 +222,9 @@ def results():
         for player in disagreed:
             player_index = player_inverse_index[player]
             tp_matrix[player_index, term_index] = 0
-        
+
         np.save('app/static/tp_matrix', tp_matrix)
-    
+
     return redirect(url_for('irsystem.search'))
 
     # return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=data)
-
-
