@@ -127,13 +127,13 @@ def search():
         yt_dict = json.load(file_r_yt)
         file_r_yt.close()
         
-        file_w_yt = open('app/static/youtube_cache.json', 'w')
-        
         for i in range(len(data)):
             thumb, link, title = ytHighlights(data[i], yt_dict)
             # thumb, link, title = "blank", "blank", "blank"
             # updateTitle(title)
             data[i] = [data[i], thumb, link, updateTitle(title)]
+
+        file_w_yt = open('app/static/youtube_cache.json', 'w')
 
         json.dump(yt_dict, file_w_yt, indent = 4)
         file_w_yt.close()
@@ -155,10 +155,9 @@ def search():
     return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=data)
 
 
-def ytHighlights(player_name, yt_dict):
-    # print("Highlights check")
-    
+def ytHighlights(player_name, yt_dict):    
     if player_name not in yt_dict:
+        print(player_name)
         print("Api call made")
         request = youtube.search().list(
             part="snippet",
@@ -196,11 +195,9 @@ def results():
     term_player_index = {}
     player_term_index = {}
 
-    print("File opened")
     f1 = current_app.open_resource('static/inverted_index.json')
     term_player_index = json.load(f1)
 
-    print("File opened")
     f2 = current_app.open_resource('static/inverted_index2.json')
     player_term_index = json.load(f2)
 
@@ -208,8 +205,11 @@ def results():
     player_inverse_index = {player : idx for idx, player in enumerate(player_term_index)}
 
     disagreed = request.args.getlist('newcbox')
-    query = session.get('query')
+    query = session.get('query').lower()
     checks = session.get('checks')
+    print(session)
+
+    print("Disagreed is: ", disagreed)
 
     tp_matrix = np.load('app/static/tp_matrix.npy')
     output_message = ''
@@ -220,7 +220,7 @@ def results():
     # get associated result which is agreed/disagreed with
 
     if checks == ['t']:
-        # print("checked")
+        print("checked")
         term_index = term_inverse_index[query]
         for player in disagreed:
             player_index = player_inverse_index[player]
@@ -234,12 +234,14 @@ def results():
         np.save('app/static/tp_matrix', tp_matrix)
 
     else:
-        # print("hi")
+        print("not checked")
         # change this part for player-to-player feedback
-        term_index = term_inverse_index[query]
-        for player in disagreed:
-            player_index = player_inverse_index[player]
-            tp_matrix[player_index, term_index] = 0
+        if query in term_inverse_index:
+            term_index = term_inverse_index[query]
+            
+            for player in disagreed:
+                player_index = player_inverse_index[player]
+                tp_matrix[player_index, term_index] = 0
 
         np.save('app/static/tp_matrix', tp_matrix)
 
