@@ -99,20 +99,48 @@ def search():
                         num = tp_matrix[player_idx, term_idx]
                         norm = np.linalg.norm(tp_matrix[player_idx])
 
-                        results[player] = num / norm
+                        # idf = np.count_nonzero(tp_matrix[:, term_idx])
+                        # idf = idf / len(player_inverse_index)
+
+                        # multiply (num / norm) by math.log(idf)
+                        results[player] = (num / norm)
         else:
+            with open('app/static/irrelevant.json', 'r') as json_file:
+                idict = json.load(json_file)
+
             for word in q_split:
                 wl = word.lower()
                 if wl in player_inverse_index:
                     player_idx = player_inverse_index[wl]
+
+                    # pseudo rocchio update
+                    player_vector = tp_matrix[player_idx]
+
+                    relevant = np.zeros(len(tp_matrix[player_idx]))
+                    irrelevant = np.zeros(len(tp_matrix[player_idx]))
+
+                    for player in player_inverse_index:
+                        if wl in idict and player in idict[wl]:
+                            pidx = player_inverse_index[player]
+                            irrelevant += tp_matrix[pidx]
+                        else:
+                            pidx = player_inverse_index[player]
+                            relevant += tp_matrix[pidx]
+                    
+                    if wl in idict:
+                        relevant = relevant / (len(player_inverse_index) - len(idict[wl]))
+                        irrelevant = irrelevant / len(idict[wl])
+
+                        player_vector = 0.9*player_vector + 0.1*relevant - 0.1*irrelevant
+
                     for player in player_inverse_index:
                         if player_inverse_index[player] != player_idx:
                             # cosine similarity
                             p_idx2 = player_inverse_index[player]
-                            temp = np.multiply(tp_matrix[player_idx], tp_matrix[p_idx2])
+                            temp = np.multiply(player_vector, tp_matrix[p_idx2])
                             CS_num = np.sum(temp)
 
-                            norm1 = np.linalg.norm(tp_matrix[player_idx])
+                            norm1 = np.linalg.norm(player_vector)
                             norm2 = np.linalg.norm(tp_matrix[p_idx2])
 
                             results[player] = CS_num / (norm1 * norm2)
@@ -230,13 +258,22 @@ def results():
 
     else:
         print("not checked")
-        # change this part for player-to-player feedback
-        if query in term_inverse_index:
-            term_index = term_inverse_index[query]
-            
-            for player in disagreed:
-                player_index = player_inverse_index[player]
-                tp_matrix[player_index, term_index] = 0
+
+        with open('app/static/irrelevant.json', 'r') as json_file:
+            idict = json.load(json_file)
+        
+        if query in player_inverse_index:
+            if query in idict:
+                for player in disagreed:
+                    if player not in idict[query]:
+                        idict[query].append(player)
+            else:
+                idict[query] = []
+                for player in disagreed:
+                    idict[query].append(player)
+        
+        with open('app/static/irrelevant.json', 'w') as fp:
+            json.dump(idict, fp, indent=4)
 
         np.save('app/static/tp_matrix', tp_matrix)
 
