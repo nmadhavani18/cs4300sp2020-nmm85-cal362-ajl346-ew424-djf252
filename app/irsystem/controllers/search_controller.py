@@ -89,9 +89,13 @@ def search():
 
 
         if checks == ['t']:
-            for word in q_split:
+            for i in range(len(q_split)):
+                word = q_split[i]
                 wl = word.lower()
+                wl = wl.strip()
+                
                 if wl in term_inverse_index:
+                    print("in term_inv_index, wl is: ", wl)
                     term_idx = term_inverse_index[wl]
                     for pair in term_player_index[wl]:
                         player = pair[0]
@@ -103,7 +107,11 @@ def search():
                         # idf = idf / len(player_inverse_index)
 
                         # multiply (num / norm) by math.log(idf)
-                        results[player] = (num / norm)
+                        # add them for each query trait
+                        if player not in results:
+                            results[player] = 0
+                        results[player] += (num / norm)
+
         else:
             with open('app/static/irrelevant.json', 'r') as json_file:
                 idict = json.load(json_file)
@@ -250,8 +258,9 @@ def results():
 
     disagreed = request.args.getlist('newcbox')
     query = session.get('query').lower()
+    query = query.split(', ')
+
     checks = session.get('checks')
-    print(session)
 
     print("Disagreed is: ", disagreed)
 
@@ -265,28 +274,31 @@ def results():
 
     if checks == ['t']:
         print("checked")
-        term_index = term_inverse_index[query]
-        for player in disagreed:
-            player_index = player_inverse_index[player]
-            tp_matrix[player_index, term_index] = 0
-        
+        for trait in query:
+            if trait in term_inverse_index:
+                term_index = term_inverse_index[trait]
+                
+                for player in disagreed:
+                    player_index = player_inverse_index[player]
+                    tp_matrix[player_index, term_index] = 0
+            
         np.save('app/static/tp_matrix', tp_matrix)
 
     else:
         print("not checked")
-
         with open('app/static/irrelevant.json', 'r') as json_file:
             idict = json.load(json_file)
         
-        if query in player_inverse_index:
-            if query in idict:
-                for player in disagreed:
-                    if player not in idict[query]:
-                        idict[query].append(player)
-            else:
-                idict[query] = []
-                for player in disagreed:
-                    idict[query].append(player)
+        for q in query:
+            if q in player_inverse_index:
+                if q in idict:
+                    for player in disagreed:
+                        if player not in idict[q]:
+                            idict[q].append(player)
+                else:
+                    idict[q] = []
+                    for player in disagreed:
+                        idict[q].append(player)
         
         with open('app/static/irrelevant.json', 'w') as fp:
             json.dump(idict, fp, indent=4)
