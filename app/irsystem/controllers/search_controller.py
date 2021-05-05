@@ -69,24 +69,15 @@ def search():
         term_inverse_index = {term : idx for idx, term in enumerate(term_player_index)}
         player_inverse_index = {player : idx for idx, player in enumerate(player_term_index)}
 
+        with open('app/static/relevant.json', 'r') as json_file:
+            rdict = json.load(json_file)
+        
+        with open('app/static/irrelevant.json', 'r') as json_file:
+            idict = json.load(json_file)
 
-
-        # create player-term frequency matrix
-        """
-        tp_matrix = np.zeros((len(player_inverse_index), len(term_inverse_index)))
-
-        for player in player_term_index:
-            player_idx = player_inverse_index[player]
-            for entry in player_term_index[player]:
-                term = entry[0]
-                num = entry[1]
-                term_idx = term_inverse_index[term]
-                tp_matrix[player_idx, term_idx] = num
-        """
         tp_matrix = np.load('app/static/tp_matrix.npy')
 
         np.save('app/static/tp_matrix', tp_matrix)
-
 
         if checks == ['t']:
             for i in range(len(q_split)):
@@ -113,11 +104,11 @@ def search():
                         results[player] += (num / norm)
 
         else:
-            with open('app/static/irrelevant.json', 'r') as json_file:
-                idict = json.load(json_file)
-
-            
             player_vector = np.zeros(len(tp_matrix[0]))
+            relevant_vector = np.zeros(len(tp_matrix[0]))
+            irrelevant_vector = np.zeros(len(tp_matrix[0]))
+            relevant_size = 0
+            irrelevant_size = 0
             count = 0
             query_players = set()
 
@@ -132,22 +123,22 @@ def search():
                     # print(wl, " First traits: ", tp_matrix[player_idx][:10])
 
                     # pseudo rocchio update
-                    relevant = np.zeros(len(tp_matrix[player_idx]))
-                    irrelevant = np.zeros(len(tp_matrix[player_idx]))
-
                     for player in player_inverse_index:
                         if wl in idict and player in idict[wl]:
                             pidx = player_inverse_index[player]
-                            irrelevant += tp_matrix[pidx]
-                        else:
+                            irrelevant_vector += tp_matrix[pidx]
+                        if wl in rdict and player in rdict[wl]:
                             pidx = player_inverse_index[player]
-                            relevant += tp_matrix[pidx]
+                            relevant_vector += tp_matrix[pidx]
                     
-                    if wl in idict:
-                        relevant = relevant / (len(player_inverse_index) - len(idict[wl]))
-                        irrelevant = irrelevant / len(idict[wl])
+                    if wl in idict and wl in rdict:
+                        relevant_size += len(rdict[wl])
+                        irrelevant_size += len(idict[wl])
 
-                        player_vector += 0.9*player_vector + 0.1*relevant - 0.1*irrelevant
+                        relevant = relevant_vector / relevant_size
+                        irrelevant = irrelevant_vector / irrelevant_size
+
+                        player_vector += 0.9*tp_matrix[player_idx] + 0.1*relevant - 0.15*irrelevant
                     else:
                         player_vector += tp_matrix[player_idx]
                     count += 1
@@ -170,7 +161,21 @@ def search():
         scores.sort(reverse=True, key=lambda x: x[1])
         data = [player for player, _ in scores]
         data = data[:5]  # limit to top 5
-        # print(data)
+        
+        # initially add all players to relevant (player comp only)
+        if checks == ['p']:
+            for query in query_players:
+                if query not in rdict:
+                    rdict[query] = []
+                    for player in data:
+                        rdict[query].append(player)
+                else:
+                    for player in data:
+                        if player not in rdict[query]:
+                            rdict[query].append(player)
+            
+            with open('app/static/relevant.json', 'w') as fp:
+                json.dump(rdict, fp, indent=4)
 
         file_r_yt = open('app/static/youtube_cache.json', 'r')
         yt_dict = json.load(file_r_yt)
@@ -289,19 +294,35 @@ def results():
         with open('app/static/irrelevant.json', 'r') as json_file:
             idict = json.load(json_file)
         
-        for q in query:
-            if q in player_inverse_index:
-                if q in idict:
-                    for player in disagreed:
-                        if player not in idict[q]:
-                            idict[q].append(player)
-                else:
-                    idict[q] = []
-                    for player in disagreed:
-                        idict[q].append(player)
+        with open('app/static/relevant.json', 'r') as json_file:
+            rdict = json.load(json_file)
+        
+        query_players = set()
+        for word in query:
+            word = word.strip()
+            query_players.add(word)
+
+        for plyr in query_players:
+            if plyr in idict:
+                for player in disagreed:
+                    if player not in idict[plyr]:
+                        idict[plyr].append(player)
+
+            if plyr not in idict:
+                idict[plyr] = []
+                for player in disagreed:
+                    idict[plyr].append(player)
+
+            if plyr in rdict:
+                for player in disagreed:
+                    if player in rdict[plyr]:
+                        rdict[plyr].remove(player)
         
         with open('app/static/irrelevant.json', 'w') as fp:
             json.dump(idict, fp, indent=4)
+        
+        with open('app/static/relevant.json', 'w') as fp:
+            json.dump(rdict, fp, indent=4)
 
         np.save('app/static/tp_matrix', tp_matrix)
 
