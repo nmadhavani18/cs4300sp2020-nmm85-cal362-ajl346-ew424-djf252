@@ -108,14 +108,22 @@ def search():
             with open('app/static/irrelevant.json', 'r') as json_file:
                 idict = json.load(json_file)
 
+            
+            player_vector = np.zeros(len(tp_matrix[0]))
+            count = 0
+            query_players = set()
+
             for word in q_split:
                 wl = word.lower()
+                wl = wl.strip()
+                query_players.add(wl)
+                
                 if wl in player_inverse_index:
+                    
                     player_idx = player_inverse_index[wl]
+                    # print(wl, " First traits: ", tp_matrix[player_idx][:10])
 
                     # pseudo rocchio update
-                    player_vector = tp_matrix[player_idx]
-
                     relevant = np.zeros(len(tp_matrix[player_idx]))
                     irrelevant = np.zeros(len(tp_matrix[player_idx]))
 
@@ -131,19 +139,24 @@ def search():
                         relevant = relevant / (len(player_inverse_index) - len(idict[wl]))
                         irrelevant = irrelevant / len(idict[wl])
 
-                        player_vector = 0.9*player_vector + 0.1*relevant - 0.1*irrelevant
+                        player_vector += 0.9*player_vector + 0.1*relevant - 0.1*irrelevant
+                    else:
+                        player_vector += tp_matrix[player_idx]
+                    count += 1
+            
+            player_vector /= count
 
-                    for player in player_inverse_index:
-                        if player_inverse_index[player] != player_idx:
-                            # cosine similarity
-                            p_idx2 = player_inverse_index[player]
-                            temp = np.multiply(player_vector, tp_matrix[p_idx2])
-                            CS_num = np.sum(temp)
+            for player in player_inverse_index:
+                if player not in query_players:
+                    # cosine similarity
+                    p_idx2 = player_inverse_index[player]
+                    temp = np.multiply(player_vector, tp_matrix[p_idx2])
+                    CS_num = np.sum(temp)
 
-                            norm1 = np.linalg.norm(player_vector)
-                            norm2 = np.linalg.norm(tp_matrix[p_idx2])
+                    norm1 = np.linalg.norm(player_vector)
+                    norm2 = np.linalg.norm(tp_matrix[p_idx2])
 
-                            results[player] = CS_num / (norm1 * norm2)
+                    results[player] = CS_num / (norm1 * norm2)
 
         scores = [(player, score) for player, score in results.items()]
         scores.sort(reverse=True, key=lambda x: x[1])
@@ -184,22 +197,25 @@ def search():
 
 
 def ytHighlights(player_name, yt_dict):    
-    if player_name not in yt_dict:
-        print(player_name)
-        print("Api call made")
-        request = youtube.search().list(
-            part="snippet",
-            q= player_name + " highlights"
-        )
+    try: 
+        if player_name not in yt_dict:
+            print(player_name)
+            print("Api call made")
+            request = youtube.search().list(
+                part="snippet",
+                q= player_name + " highlights"
+            )
 
-        response = request.execute()
-        responseJson = json.dumps(response)
-        thumb = response["items"][0]["snippet"]["thumbnails"]["high"]["url"]
-        url = "https://www.youtube.com/watch?v=" + response["items"][0]["id"]["videoId"]
-        title = response["items"][0]["snippet"]["title"]
-        title = updateTitle(title)
-        
-        yt_dict[player_name] = {"thumbnail": thumb, "url": url, "title": title}
+            response = request.execute()
+            responseJson = json.dumps(response)
+            thumb = response["items"][0]["snippet"]["thumbnails"]["high"]["url"]
+            url = "https://www.youtube.com/watch?v=" + response["items"][0]["id"]["videoId"]
+            title = response["items"][0]["snippet"]["title"]
+            title = updateTitle(title)
+            
+            yt_dict[player_name] = {"thumbnail": thumb, "url": url, "title": title}
+    except:
+        return ("", "", "ERROR: API CALLS MAXED OUT")
         
     return (yt_dict[player_name]["thumbnail"], 
                 yt_dict[player_name]["url"], 
