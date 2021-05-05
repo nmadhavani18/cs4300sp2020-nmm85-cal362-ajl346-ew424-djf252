@@ -206,13 +206,8 @@ def results():
         term_index = term_inverse_index[query]
         for player in disagreed:
             player_index = player_inverse_index[player]
-            old = tp_matrix[player_index, term_index]
             tp_matrix[player_index, term_index] = 0
-            new = tp_matrix[player_index, term_index]
-
-            print(old)
-            print(new)
-
+        
         np.save('app/static/tp_matrix', tp_matrix)
 
     else:
