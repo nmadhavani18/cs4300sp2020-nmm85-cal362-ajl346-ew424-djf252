@@ -123,11 +123,20 @@ def search():
         data = data[:5]  # limit to top 5
         # print(data)
 
+        file_r_yt = open('app/static/youtube_cache.json', 'r')
+        yt_dict = json.load(file_r_yt)
+        file_r_yt.close()
+        
+        file_w_yt = open('app/static/youtube_cache.json', 'w')
+        
         for i in range(len(data)):
-            thumb, link, title = ytHighlights(data[i])
+            thumb, link, title = ytHighlights(data[i], yt_dict)
             # thumb, link, title = "blank", "blank", "blank"
-            updateTitle(title)
+            # updateTitle(title)
             data[i] = [data[i], thumb, link, updateTitle(title)]
+
+        json.dump(yt_dict, file_w_yt, indent = 4)
+        file_w_yt.close()
 
 
 
@@ -146,19 +155,28 @@ def search():
     return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=data)
 
 
-def ytHighlights(player_name):
+def ytHighlights(player_name, yt_dict):
     # print("Highlights check")
-    request = youtube.search().list(
-        part="snippet",
-        q= player_name + " highlights"
-    )
+    
+    if player_name not in yt_dict:
+        print("Api call made")
+        request = youtube.search().list(
+            part="snippet",
+            q= player_name + " highlights"
+        )
 
-    response = request.execute()
-    responseJson = json.dumps(response)
-    output1 = (response["items"][0]["snippet"]["thumbnails"]["high"]["url"],
-            "https://www.youtube.com/watch?v=" + response["items"][0]["id"]["videoId"],
-            response["items"][0]["snippet"]["title"])
-    return output1
+        response = request.execute()
+        responseJson = json.dumps(response)
+        thumb = response["items"][0]["snippet"]["thumbnails"]["high"]["url"]
+        url = "https://www.youtube.com/watch?v=" + response["items"][0]["id"]["videoId"]
+        title = response["items"][0]["snippet"]["title"]
+        title = updateTitle(title)
+        
+        yt_dict[player_name] = {"thumbnail": thumb, "url": url, "title": title}
+        
+    return (yt_dict[player_name]["thumbnail"], 
+                yt_dict[player_name]["url"], 
+                yt_dict[player_name]["title"])
 
 # Some youtube titles have "&quot;" instead of " and #39 instead of ', so this eliminates them
 def updateTitle(title):
