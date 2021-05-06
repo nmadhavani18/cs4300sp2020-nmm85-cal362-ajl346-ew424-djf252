@@ -18,11 +18,11 @@ os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 
 api_service_name = "youtube"
 api_version = "v3"
-# DEVELOPER_KEY = "AIzaSyBv8cM9jRZfZ2QmVcnSqMunqzIFr4PwZxg"
+DEVELOPER_KEY = "AIzaSyBv8cM9jRZfZ2QmVcnSqMunqzIFr4PwZxg"
 # DEVELOPER_KEY = "AIzaSyAORCs5Nvrxu1rsufxjcvcLB4zw32AcdBc"
 # DEVELOPER_KEY = "AIzaSyBXF84YPcwV38EB0E3im_CHi951OHUYKGs"
 # DEVELOPER_KEY = "AIzaSyAc9eFivfJBHtDY7Rs7dn4a3gJcXBNQCWU"
-DEVELOPER_KEY = "AIzaSyDxMRllRdEV0ei9OC1T_bbnjKJ5j1Na0oo"
+# DEVELOPER_KEY = "AIzaSyDxMRllRdEV0ei9OC1T_bbnjKJ5j1Na0oo"
 
 youtube = googleapiclient.discovery.build(
     api_service_name, api_version, developerKey = DEVELOPER_KEY)
@@ -72,7 +72,7 @@ def search():
 
         with open('app/static/relevant.json', 'r') as json_file:
             rdict = json.load(json_file)
-        
+
         with open('app/static/irrelevant.json', 'r') as json_file:
             idict = json.load(json_file)
 
@@ -85,7 +85,7 @@ def search():
                 word = q_split[i]
                 wl = word.lower()
                 wl = wl.strip()
-                
+
                 if wl in term_inverse_index:
                     print("in term_inv_index, wl is: ", wl)
                     term_idx = term_inverse_index[wl]
@@ -117,9 +117,9 @@ def search():
                 wl = word.lower()
                 wl = wl.strip()
                 query_players.add(wl)
-                
+
                 if wl in player_inverse_index:
-                    
+
                     player_idx = player_inverse_index[wl]
                     # print(wl, " First traits: ", tp_matrix[player_idx][:10])
 
@@ -131,7 +131,7 @@ def search():
                         if wl in rdict and player in rdict[wl]:
                             pidx = player_inverse_index[player]
                             relevant_vector += tp_matrix[pidx]
-                    
+
                     if wl in idict and wl in rdict:
                         relevant_size += len(rdict[wl])
                         irrelevant_size += len(idict[wl])
@@ -143,7 +143,7 @@ def search():
                     else:
                         player_vector += tp_matrix[player_idx]
                     count += 1
-            
+
             player_vector /= count
 
             for player in player_inverse_index:
@@ -162,7 +162,7 @@ def search():
         scores.sort(reverse=True, key=lambda x: x[1])
         data = [player for player, _ in scores]
         data = data[:5]  # limit to top 5
-        
+
         # initially add all players to relevant (player comp only)
         if checks == ['p']:
             for q in query_players:
@@ -174,17 +174,17 @@ def search():
                     for player in data:
                         if player not in rdict[q]:
                             rdict[q].append(player)
-            
+
             with open('app/static/relevant.json', 'w') as fp:
                 json.dump(rdict, fp, indent=4)
 
         file_r_yt = open('app/static/youtube_cache.json', 'r')
         yt_dict = json.load(file_r_yt)
         file_r_yt.close()
-        
+
         positions_file = open('app/static/player_to_position.json', 'r')
         player_pos_dict = json.load(positions_file)
-    
+
         for i in range(len(data)):
             thumb, link, title = ytHighlights(data[i], yt_dict)
             # thumb, link, title = "blank", "blank", "blank"
@@ -216,8 +216,8 @@ def search():
     return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=data)
 
 
-def ytHighlights(player_name, yt_dict):    
-    try: 
+def ytHighlights(player_name, yt_dict):
+    try:
         if player_name not in yt_dict:
             print(player_name)
             print("Api call made")
@@ -232,13 +232,13 @@ def ytHighlights(player_name, yt_dict):
             url = "https://www.youtube.com/watch?v=" + response["items"][0]["id"]["videoId"]
             title = response["items"][0]["snippet"]["title"]
             title = updateTitle(title)
-            
+
             yt_dict[player_name] = {"thumbnail": thumb, "url": url, "title": title}
     except:
         return ("", "", "ERROR: API CALLS MAXED OUT")
-        
-    return (yt_dict[player_name]["thumbnail"], 
-                yt_dict[player_name]["url"], 
+
+    return (yt_dict[player_name]["thumbnail"],
+                yt_dict[player_name]["url"],
                 yt_dict[player_name]["title"])
 
 # Some youtube titles have "&quot;" instead of " and #39 instead of ', so this eliminates them
@@ -289,21 +289,21 @@ def results():
         for trait in query:
             if trait in term_inverse_index:
                 term_index = term_inverse_index[trait]
-                
+
                 for player in disagreed:
                     player_index = player_inverse_index[player]
                     tp_matrix[player_index, term_index] = 0
-            
+
         np.save('app/static/tp_matrix', tp_matrix)
 
     else:
         print("not checked")
         with open('app/static/irrelevant.json', 'r') as json_file:
             idict = json.load(json_file)
-        
+
         with open('app/static/relevant.json', 'r') as json_file:
             rdict = json.load(json_file)
-        
+
         query_players = set()
         for word in query:
             word = word.strip()
@@ -324,10 +324,10 @@ def results():
                 for player in disagreed:
                     if player in rdict[plyr]:
                         rdict[plyr].remove(player)
-        
+
         with open('app/static/irrelevant.json', 'w') as fp:
             json.dump(idict, fp, indent=4)
-        
+
         with open('app/static/relevant.json', 'w') as fp:
             json.dump(rdict, fp, indent=4)
 
