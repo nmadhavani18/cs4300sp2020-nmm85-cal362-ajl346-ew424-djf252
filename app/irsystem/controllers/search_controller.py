@@ -181,12 +181,17 @@ def search():
         yt_dict = json.load(file_r_yt)
         file_r_yt.close()
         
+        positions_file = open('app/static/player_to_position.json', 'r')
+        player_pos_dict = json.load(positions_file)
+    
         for i in range(len(data)):
             thumb, link, title = ytHighlights(data[i], yt_dict)
             # thumb, link, title = "blank", "blank", "blank"
             # updateTitle(title)
-            data[i] = [data[i], thumb, link, updateTitle(title)]
+            data[i] = [data[i], thumb, link, updateTitle(title), player_pos_dict[data[i]]]
+            print(data[i])
 
+        positions_file.close()
         file_w_yt = open('app/static/youtube_cache.json', 'w')
 
         json.dump(yt_dict, file_w_yt, indent = 4)
