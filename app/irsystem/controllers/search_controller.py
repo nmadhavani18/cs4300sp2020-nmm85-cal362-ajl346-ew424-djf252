@@ -19,9 +19,9 @@ os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 api_service_name = "youtube"
 api_version = "v3"
 # DEVELOPER_KEY = "AIzaSyBv8cM9jRZfZ2QmVcnSqMunqzIFr4PwZxg"
-DEVELOPER_KEY = "AIzaSyAORCs5Nvrxu1rsufxjcvcLB4zw32AcdBc"
+# DEVELOPER_KEY = "AIzaSyAORCs5Nvrxu1rsufxjcvcLB4zw32AcdBc"
 # DEVELOPER_KEY = "AIzaSyBXF84YPcwV38EB0E3im_CHi951OHUYKGs"
-# DEVELOPER_KEY = "AIzaSyAc9eFivfJBHtDY7Rs7dn4a3gJcXBNQCWU"
+DEVELOPER_KEY = "AIzaSyAc9eFivfJBHtDY7Rs7dn4a3gJcXBNQCWU"
 # DEVELOPER_KEY = "AIzaSyDxMRllRdEV0ei9OC1T_bbnjKJ5j1Na0oo"
 
 youtube = googleapiclient.discovery.build(
@@ -192,7 +192,7 @@ def search():
             # thumb, link, title = "blank", "blank", "blank"
             # updateTitle(title)
             data[i] = [data[i], thumb, link, updateTitle(title), player_pos_dict[data[i]]]
-            print(data[i])
+            # print(data[i])
 
         positions_file.close()
         file_w_yt = open('app/static/youtube_cache.json', 'w')
