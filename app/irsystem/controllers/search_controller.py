@@ -144,19 +144,21 @@ def search():
                         player_vector += tp_matrix[player_idx]
                     count += 1
 
-            player_vector /= count
+            if count > 0:
+                player_vector /= count
 
-            for player in player_inverse_index:
-                if player not in query_players:
-                    # cosine similarity
-                    p_idx2 = player_inverse_index[player]
-                    temp = np.multiply(player_vector, tp_matrix[p_idx2])
-                    CS_num = np.sum(temp)
+                for player in player_inverse_index:
+                    if player not in query_players:
+                        # cosine similarity
+                        p_idx2 = player_inverse_index[player]
+                        temp = np.multiply(player_vector, tp_matrix[p_idx2])
+                        CS_num = np.sum(temp)
 
-                    norm1 = np.linalg.norm(player_vector)
-                    norm2 = np.linalg.norm(tp_matrix[p_idx2])
+                        norm1 = np.linalg.norm(player_vector)
+                        norm2 = np.linalg.norm(tp_matrix[p_idx2])
 
-                    results[player] = CS_num / (norm1 * norm2)
+                        results[player] = CS_num / (norm1 * norm2)
+            
 
         scores = [(player, score) for player, score in results.items()]
         scores.sort(reverse=True, key=lambda x: x[1])
@@ -210,7 +212,7 @@ def search():
         print("query is: ", query)
         output_message = "Your search: " + query
         if data == []:
-            data = ["Error: no results found. Change input and retry."]
+            data = [("Error: no results found. Change input and retry.", "", "", "", "")]
         return render_template('results.html', name=project_name, netid=net_id, output_message=output_message, data=data)
 
     return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=data)

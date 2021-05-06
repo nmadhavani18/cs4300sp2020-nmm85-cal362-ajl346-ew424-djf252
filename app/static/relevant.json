@@ -1,1 +1,34 @@
-{}
+{
+    "drew brees": [
+        "tom brady",
+        "peyton manning",
+        "matt ryan",
+        "philip rivers",
+        "cam newton",
+        "aaron rodgers",
+        "chris long",
+        "ben roethlisberger",
+        "tress way"
+    ],
+    "travis kelce": [
+        "ross travis",
+        "trey burton",
+        "heath miller",
+        "zach ertz",
+        "zach miller"
+    ],
+    "yuri": [
+        "tom brady",
+        "aaron rodgers",
+        "chris long",
+        "ben roethlisberger",
+        "drew brees"
+    ],
+    "peyton manning": [
+        "tom brady",
+        "aaron rodgers",
+        "chris long",
+        "ben roethlisberger",
+        "tress way"
+    ]
+}
