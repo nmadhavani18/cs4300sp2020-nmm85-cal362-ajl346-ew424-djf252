@@ -47,6 +47,7 @@ def search():
     session['checks'] = checks
 
     # inverted_index: {key -> [player, count] list}
+    print("query is: ", query)
 
     if query:
         results = {}
@@ -164,15 +165,15 @@ def search():
         
         # initially add all players to relevant (player comp only)
         if checks == ['p']:
-            for query in query_players:
-                if query not in rdict:
-                    rdict[query] = []
+            for q in query_players:
+                if q not in rdict:
+                    rdict[q] = []
                     for player in data:
-                        rdict[query].append(player)
+                        rdict[q].append(player)
                 else:
                     for player in data:
-                        if player not in rdict[query]:
-                            rdict[query].append(player)
+                        if player not in rdict[q]:
+                            rdict[q].append(player)
             
             with open('app/static/relevant.json', 'w') as fp:
                 json.dump(rdict, fp, indent=4)
@@ -206,6 +207,7 @@ def search():
         data = ['']
         output_message = "Error: two boxes checked. Only check one box."
     else:
+        print("query is: ", query)
         output_message = "Your search: " + query
         if data == []:
             data = ["Error: no results found. Change input and retry."]
